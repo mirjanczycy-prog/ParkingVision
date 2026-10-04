@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ParkingVision.Maui.ViewModels"
+             xmlns:views="clr-namespace:ParkingVision.Maui.Views"
+             xmlns:loc="clr-namespace:ParkingVision.Maui.Localization"
+             x:Class="ParkingVision.Maui.Views.ZoneDetailPage"
+             x:DataType="vm:ZoneDetailViewModel"
+             Title="{Binding Title}">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="16,12" Spacing="16">
+
+                <!-- hero: how many free, and how sure are we -->
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="10">
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Label Text="{Binding FreeText}" FontSize="56" FontAttributes="Bold" TextColor="{Binding AccentColor}" VerticalOptions="End" />
+                            <VerticalStackLayout Grid.Column="1" Margin="12,0,0,6" VerticalOptions="End">
+                                <Label Text="{Binding TotalText}" FontSize="16" TextColor="{StaticResource Asphalt}" />
+                                <Label Text="{Binding BadgeText}" FontAttributes="Bold" FontSize="13" TextColor="{Binding BadgeColor}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <views:CapacityBar Free="{Binding BarFree}" Taken="{Binding BarTaken}" Unknown="{Binding BarUnknown}" HeightRequest="16" />
+                        <Label Text="{Binding ExplainText}" Style="{StaticResource Caption}" />
+                        <Label Text="{Binding UpdatedText}" Style="{StaticResource Caption}" />
+                        <Label Text="{Binding Tariff}" Style="{StaticResource Caption}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="{Binding Error}" TextColor="{StaticResource Taken}" />
+
+                <!-- spot grid: colour + symbol, so state is readable without colour vision -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{loc:T Key=detail_spaces}" Style="{StaticResource CardTitle}" />
+                    <HorizontalStackLayout Spacing="14">
+                        <Label Text="{loc:T Key=legend_free}" Style="{StaticResource Caption}" TextColor="{StaticResource Free}" />
+                        <Label Text="{loc:T Key=legend_taken}" Style="{StaticResource Caption}" TextColor="{StaticResource Taken}" />
+                        <Label Text="{loc:T Key=legend_unknown}" Style="{StaticResource Caption}" />
+                    </HorizontalStackLayout>
+                    <CollectionView ItemsSource="{Binding Spots}" SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" Span="6" VerticalItemSpacing="6" HorizontalItemSpacing="6" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:SpotTileVm">
+                                <Border BackgroundColor="{Binding Background}" StrokeThickness="0" StrokeShape="RoundRectangle 6" HeightRequest="52">
+                                    <VerticalStackLayout VerticalOptions="Center" Spacing="0">
+                                        <Label Text="{Binding ShortCode}" TextColor="White" FontAttributes="Bold" FontSize="13" HorizontalOptions="Center" />
+                                        <Label Text="{Binding StatusGlyph}" TextColor="White" FontSize="14" HorizontalOptions="Center" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <!-- parkomats -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{loc:T Key=detail_meters}" Style="{StaticResource CardTitle}" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Parkomats}" Spacing="6">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:ParkomatRowVm">
+                                <Border Style="{StaticResource Card}" Padding="12,8">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding Name}" FontAttributes="Bold" TextColor="{StaticResource Asphalt}" />
+                                        <Label Text="{Binding Info}" Style="{StaticResource Caption}" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- actions pinned to the bottom -->
+        <VerticalStackLayout Grid.Row="1" Padding="16,8,16,16" Spacing="8" BackgroundColor="{StaticResource CardBg}">
+            <Button Text="{loc:T Key=nav_button}" Style="{StaticResource PrimaryButton}" Command="{Binding NavigateCommand}" />
+            <Button Text="{loc:T Key=pay_soon}" IsEnabled="False" Style="{StaticResource GhostButton}" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ParkingVision.Maui.ViewModels"
+             xmlns:views="clr-namespace:ParkingVision.Maui.Views"
+             xmlns:loc="clr-namespace:ParkingVision.Maui.Localization"
+             x:Class="ParkingVision.Maui.Views.ZonesListPage"
+             x:DataType="vm:MapViewModel"
+             Title="{loc:T Key=list_title}">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="12,8,12,0" RowSpacing="8">
+        <views:VehicleFilterBar />
+        <Label Grid.Row="1" Text="{Binding StatusText}" Style="{StaticResource Caption}" />
+        <RefreshView Grid.Row="2" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+            <CollectionView ItemsSource="{Binding Zones}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ZoneItemVm">
+                        <views:ZoneCard Margin="0,0,0,8" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Label Text="{loc:T Key=list_empty}"
+                           Style="{StaticResource Caption}" Margin="0,24" HorizontalTextAlignment="Center" />
+                </CollectionView.EmptyView>
+                <CollectionView.Footer><BoxView HeightRequest="96" Color="Transparent" /></CollectionView.Footer>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

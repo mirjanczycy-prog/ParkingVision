@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ParkingVision.Maui.ViewModels"
+             xmlns:views="clr-namespace:ParkingVision.Maui.Views"
+             xmlns:loc="clr-namespace:ParkingVision.Maui.Localization"
+             x:Class="ParkingVision.Maui.Views.MapPage"
+             x:DataType="vm:MapViewModel"
+             Shell.NavBarIsVisible="False"
+             Title="{loc:T Key=tab_map}">
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- iOS: Apple Maps. Android: OpenStreetMap (Leaflet in a WebView). Created in code-behind by ZoneMapFactory.
+             The bottom sheet is a separate row, so the map (and its attribution) is never covered. -->
+        <ContentView x:Name="MapHost" Grid.Row="0" />
+
+        <!-- search + vehicle filter float above the map -->
+        <VerticalStackLayout Grid.Row="0" VerticalOptions="Start" Margin="12,8,12,0" Spacing="8">
+            <Border Style="{StaticResource FloatingBar}">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Entry Placeholder="{loc:T Key=search_placeholder}" Text="{Binding SearchText}"
+                           ReturnType="Search" ReturnCommand="{Binding SearchCommand}"
+                           TextColor="{StaticResource Asphalt}" />
+                    <Button Grid.Column="1" Text="{loc:T Key=my_location}" Style="{StaticResource GhostButton}"
+                            Command="{Binding UseMyLocationCommand}" />
+                </Grid>
+            </Border>
+            <views:VehicleFilterBar />
+        </VerticalStackLayout>
+
+        <!-- bottom sheet: nearest zones -->
+        <Border Grid.Row="1" Style="{StaticResource Sheet}" HeightRequest="310">
+            <Grid RowDefinitions="Auto,*" RowSpacing="8">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="{Binding StatusText}" Style="{StaticResource Caption}" VerticalOptions="Center" />
+                    <ActivityIndicator Grid.Column="1" IsRunning="{Binding IsBusy}" HeightRequest="16" WidthRequest="16"
+                                       Color="{StaticResource Asphalt}" />
+                </Grid>
+                <CollectionView Grid.Row="1" ItemsSource="{Binding Zones}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ZoneItemVm">
+                            <views:ZoneCard Margin="0,0,0,8" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <!-- room for the floating tab bar (iOS 26) so the last card is reachable -->
+                    <CollectionView.Footer><BoxView HeightRequest="96" Color="Transparent" /></CollectionView.Footer>
+                </CollectionView>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

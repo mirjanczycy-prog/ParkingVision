@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:ParkingVision.Maui.Views"
+       xmlns:loc="clr-namespace:ParkingVision.Maui.Localization"
+       x:Class="ParkingVision.Maui.AppShell"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.TabBarBackgroundColor="{StaticResource Asphalt}"
+       Shell.TabBarForegroundColor="{StaticResource Paint}"
+       Shell.TabBarTitleColor="{StaticResource Paint}"
+       Shell.TabBarUnselectedColor="#9FB0BF">
+    <TabBar>
+        <ShellContent Title="{loc:T Key=tab_map}"       Route="map"      ContentTemplate="{DataTemplate views:MapPage}" />
+        <ShellContent Title="{loc:T Key=tab_list}"      Route="list"     ContentTemplate="{DataTemplate views:ZonesListPage}" />
+        <ShellContent Title="{loc:T Key=tab_settings}" Route="settings" ContentTemplate="{DataTemplate views:SettingsPage}" />
+    </TabBar>
+</Shell>

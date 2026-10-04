@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ParkingVision.Maui.ViewModels"
+             xmlns:loc="clr-namespace:ParkingVision.Maui.Localization"
+             x:Class="ParkingVision.Maui.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             Title="{loc:T Key=tab_settings}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="14">
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="{loc:T Key=set_server}" Style="{StaticResource CardTitle}" />
+                <Entry Text="{Binding ApiBaseUrl}" Keyboard="Url" />
+                <Label Text="{loc:T Key=set_server_hint}"
+                       Style="{StaticResource Caption}" />
+                <Button Text="{loc:T Key=set_test}" Command="{Binding TestConnectionCommand}" Style="{StaticResource GhostButton}" HorizontalOptions="Start" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="{Binding RadiusLabel}" Style="{StaticResource CardTitle}" />
+                <Slider Minimum="200" Maximum="5000" Value="{Binding RadiusM}" MinimumTrackColor="{StaticResource Asphalt}" ThumbColor="{StaticResource Paint}" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="{Binding RefreshLabel}" Style="{StaticResource CardTitle}" />
+                <Slider Minimum="3" Maximum="60" Value="{Binding RefreshSeconds}" MinimumTrackColor="{StaticResource Asphalt}" ThumbColor="{StaticResource Paint}" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="{Binding LanguageLabel}" Style="{StaticResource CardTitle}" />
+                <Picker ItemsSource="{Binding Languages}" SelectedIndex="{Binding LanguageIndex}" />
+            </VerticalStackLayout>
+
+            <Border Style="{StaticResource Card}">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout>
+                        <Label Text="{loc:T Key=set_demo}" Style="{StaticResource CardTitle}" />
+                        <Label Text="{loc:T Key=set_demo_hint}"
+                               Style="{StaticResource Caption}" />
+                    </VerticalStackLayout>
+                    <Switch Grid.Column="1" IsToggled="{Binding UseDemoLocation}" OnColor="{StaticResource Free}" />
+                </Grid>
+            </Border>
+
+            <Button Text="{loc:T Key=set_save}" Command="{Binding SaveCommand}" Style="{StaticResource PrimaryButton}" />
+            <Label Text="{Binding ConnectionStatus}" Style="{StaticResource Caption}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,8 @@
+bin/
+obj/
+*.user
+.vs/
+data/*.db
+data/*.db-*
+models/*.onnx
+*.log

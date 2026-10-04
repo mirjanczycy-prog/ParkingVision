@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.*" />
+    <PackageReference Include="OpenCvSharp4" Version="4.*" />
+    <PackageReference Include="NetTopologySuite" Version="2.*" />
+    <!-- Native OpenCV runtime. Windows shown; on Linux use the matching OpenCvSharp4.runtime.* package for your distro. -->
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.*" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
+  </ItemGroup>
+</Project>
