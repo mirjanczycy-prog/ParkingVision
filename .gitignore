@@ -6,3 +6,5 @@ data/*.db
 data/*.db-*
 models/*.onnx
 *.log
+AGENTS.md
+docs/changes/
