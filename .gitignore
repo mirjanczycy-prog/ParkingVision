@@ -8,3 +8,4 @@ models/*.onnx
 *.log
 AGENTS.md
 docs/changes/
+.DS_Store
